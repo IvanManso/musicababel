@@ -5,7 +5,7 @@ module.exports = function(grunt){
 		less:{
 			style:{
 				files:{ //archivos a compilar
-					"style.css":"style.less" //destino: origen
+					"style.css":"less/style.less" //destino: origen
 			}
 		}
 	},

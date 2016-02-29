@@ -1,13 +1,13 @@
 $(document).ready(function(){//Cuando la página se ha cargado por completo
 
-	$(".artist").focus();//ponemos el foco en el primer input
+	$("#artist").focus();//ponemos el foco en el primer input
 
 	$("form").on("submit", function(){ //cuando se intente enviar
 		var artist = $.trim($("#artist").val());
 		var title =  $.trim($("#song").val());
 
 		if(artist == ""){ //validación del artista
-			alert("El título no puede ser vacío");
+			alert("El artista no puede ser vacío");
 			return false;
 		}
 
@@ -21,85 +21,87 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 
 		var pattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ig;
 
-		if( url_audio !="" && pattern.test(url_audio) == false){ //validación de la url de la canción
-			alert("La url no es válida");
+		if( url_audio =="" || pattern.test(url_audio) == false){ //validación de la url de la canción
+			alert("La url del audio no es válida");
 			return false;
 		}
 
 		if( url_image !="" && pattern.test(url_image) == false){ //validación de la url de la imagen
-			alert("La url no es válida");
+			alert("La url de la imagen no es válida");
 			return false;
 		}
 
 
-		$("#save").on("click", function(){
-			$.ajax({ //preparación de la petición de añadir canción
-			method: 'post',
-			url: "/api/playlist",
-			data: JSON.stringify({
-				title: title,
-				url: url
-			}),
-			contentType: 'application/json',
-			success: function(){
-				reloadSeries();
-				alert("Guardado con éxito");
-			},
-			error: function(){
-				alert("Se ha producido un error");
-			}
-		});
-		})
-
-
-
-
-
-
-
-		$.ajax({ //preparación de la petición que llegará de manera asíncrona
-			method: 'post',
-			url: "/api/series",
-			data: JSON.stringify({
-				title: title,
-				url: url
-			}),
-			contentType: 'application/json',
-			success: function(){
-				reloadSeries();
-				alert("Guardado con éxito");
-			},
-			error: function(){
-				alert("Se ha producido un error");
-			}
+		console.log("Petición de guardado iniciada");
+		$.ajax({		 //preparación de la petición de añadir canción
+		method: 'post',
+		url: "/api/playlist",
+		data: JSON.stringify({
+			artist: artist,
+			title: title,
+			url_audio: url_audio,
+			url_image: url_image
+		}),
+		contentType: 'application/json',
+		success: function(){
+			alert("Guardado con éxito");
+		},
+		error: function(){
+			alert("Se ha producido un error");
+		}
 		});
 
-		return false; //jquery cancela el envío del formulario
 
 	});
 
-
-		function reloadSeries(){
-			console.log("Cargando series");
-			$.ajax({
-				url:"/api/series/",
+	$.ajax({              //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
+				url:"/api/playlist/",
 				success: function(data){
-					console.log("Series", data);
+					console.log("Lista de canciones", data);
 					var html = "";
 					for(var i in data){
-						var id = data[i].id;
 						var title = data[i].title;
-						var url = data[i].url || "";
+						var artist = data[i].artist;
+						var image = data[i].url_image;
+						var audio = data[i].url_audio;
+						html += "<article>";
 						html += "<li>";
 						html += title;
-						if (url.length > 0)
-							html += " (" + url + ")";
-						html += "<button data-serieid=" + id + ">Eliminar</button>";
+						html += artist;
+						html += "<img src=" '\"'+ url_image + " '\"' title= " + title + "></img>";
+						html += "<audio controls><source src=" '\"'+ url_audio + " '\"' type=audio/mpeg ></audio>";
+						html += "<button id='\"'edit song button'\"'>Editar</button>"
+						html += "<button id='\"'delete song button'\"'>Eliminar</button>"
 						html += "</li>";
+						html += "</article>";
 					}
-					$("#seriesList").html(html); // innerHTML = html
+					$(".audio.media.list").html(html); // innerHTML = html
 				}
 			});
+
+
+
+	$(".audio.media.list").on("click", "button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+			var self = this;
+			var id = $(self).data("id");
+
+		$.ajax({
+					url: "/api/playlist/" + id,
+					method: "delete",
+					success: function(){
+						$(self).parent().remove();
+					}
+				});
+};
+
+});
+
+
+
+
+   /*
+
+
 
 
 
@@ -124,3 +126,5 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 
 		});
 });
+
+*/
