@@ -1,0 +1,24 @@
+{
+  "name": "musicababel",
+  "version": "0.1.0",
+  "description": "An awesome clone of Grooveshark and SoundCloud",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IvanManso/musicababel.git"
+  },
+  "author": "Iván Manso / Marcos Gil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IvanManso/musicababel/issues"
+  },
+  "homepage": "https://github.com/IvanManso/musicababel#readme",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
