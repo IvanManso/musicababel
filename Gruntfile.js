@@ -2,16 +2,16 @@ module.exports = function(grunt){
 
 	//Configuración de Grunt
 	var settings = {
-		less:{
-			style:{
-				files:{ //archivos a compilar
-					"style.css":"style.less" //destino: origen
+		less: {
+			style: {
+				files: { //archivos a compilar
+					"style.css": "less/style.less" //destino: origen
 			}
 		}
 	},
 	watch:{
 		styles:{
-			files:["*.less"], //observa cualquier cambio en archivos LESS
+			files:["less/*.less"], //observa cualquier cambio en archivos LESS
 			tasks:["less"], //ejecuta la compilación de LESS
 			options:{
 				spawn: false //para que no se quede tostado (¿?)

@@ -15,5 +15,8 @@
     "test",
     "tests"
   ],
-  "private": true
+  "private": true,
+  "dependencies": {
+    "jquery": "^2.2.1"
+  }
 }
