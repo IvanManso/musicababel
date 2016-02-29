@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Formulario musicababel</title>
+</head>
+<body>
+	<header class="web header">
+		<div class="logo">MúsicaBabel</div>
+		<div class="add">
+			<button href="#">Cancel</button>
+		</div>
+	</header>
+	<main class="web main">
+		<form class="show_form" novalidate>
+			<h1>Añadir canción a la lista</h1>
+			<div>
+				<label>
+					<h3>Artista</h3>
+					<input type="text" class="item artist" id ="artist" name="artist" placeholder="Introduce el nombre del artista" required></input>
+				</label>
+			</div>
+			<div>
+				<label>
+					<h3>Título</h3>
+					<input type="text" class="item title" id="song" name="song" placeholder="Introduce el título de la canción" required></input>
+				</label>
+			</div>
+			<div>
+				<label>
+					<h3>URL Canción</h3>
+					<input type="url" class="item url song" id="audio" name="audio" placeholder="Introduce la url de la canción" required></input>
+				</label>
+			</div>
+			<div>
+				<label>
+					<h3>URL Imagen</h3>
+					<input type="url" class="item url image" id="image" name="image" placeholder="Introduce la url de la imagen"></input>
+				</label>
+			</div>
+			<div>
+				<button id="save">Guardar</button>
+			</div>
+		</form>
+	</main>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="js/src/app.js"></script>
+</body>
+</html>
