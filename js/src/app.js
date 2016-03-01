@@ -38,9 +38,9 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 		url: "/api/playlist",
 		data: JSON.stringify({
 			artist: artist,
-			title: title,
+			url_image: url_image,
 			url_audio: url_audio,
-			url_image: url_image
+			title: title
 		}),
 		contentType: 'application/json',
 		success: function(){
@@ -60,6 +60,7 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 					console.log("Lista de canciones", data);
 					var html = "";
 					for(var i in data){
+						var id = data[i].id;
 						var title = data[i].title;
 						var artist = data[i].artist;
 						var image = data[i].url_image;
@@ -68,10 +69,11 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 						html += "<li>";
 						html += title;
 						html += artist;
-						html += "<img src=" '\"'+ url_image + " '\"' title= " + title + "></img>";
-						html += "<audio controls><source src=" '\"'+ url_audio + " '\"' type=audio/mpeg ></audio>";
-						html += "<button id='\"'edit song button'\"'>Editar</button>"
-						html += "<button id='\"'delete song button'\"'>Eliminar</button>"
+						html += "<img src=\""+ image + "\"></img>";
+						console.log("La URL de la imagen es ",image);
+						html += "<audio controls><source src= \" "+ audio + " \" type=audio/mpeg ></audio>";
+						html += "<button id=\"edit song button\" data-songid=" + id + ">Editar</button>";
+						html += "<button id=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
 						html += "</li>";
 						html += "</article>";
 					}
@@ -81,9 +83,10 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 
 
 
-	$(".audio.media.list").on("click", "button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+	$(".audio.media.list").on("click", ".delete.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+			console.log("Elimino la serie");
 			var self = this;
-			var id = $(self).data("id");
+			var id = $(self).data("songid");
 
 		$.ajax({
 					url: "/api/playlist/" + id,
@@ -92,11 +95,19 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 						$(self).parent().remove();
 					}
 				});
-};
-
 });
 
+});
+/*
 
+	$(".audio.media.list").on(".edit.song.button", "click", function(){
+		var $li = $(this).closest("li");
+		$li.find(".item.artist").val($li.find("input.artist").html());
+		$li.find(".item.title").val($li.find("input.title").html());
+	})
+});
+
+*/
 
 
    /*
