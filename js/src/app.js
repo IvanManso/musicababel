@@ -130,13 +130,13 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     var audio = data[i].url_audio;
                     console.log("Item", i, title);
                     html += "<article>";
-                    html += "<li>";
-                    html += title;
-                    html += artist;
-                    html += "<img src=\"" + image + "\"></img>";
+                    html += "<li><label><div class=\"item meta\">";
+                    html += "<h3>" + title + "</h3>";
+                    html += "<h4>" + artist + "</h4>";
+                    html += "</div><img src=\"" + image + "\"></img></label>";
                     html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
-                    html += "<button class=\"edit song button\" data-songid=" + id + ">Editar</button>";
-                    html += "<button class=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
+                    html += "<div class=\"item buttons\"><button class=\"edit song button\" id=\"editItemButton\" data-songid=" + id + ">Editar</button>";
+                    html += "<button class=\"delete song button\" id=\"deleteItemButton\" data-songid=" + id + ">Eliminar</button></div>";
                     html += "</li>";
                     html += "</article>";
                 }
@@ -147,7 +147,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     }
 
     // Eliminar item
-    $(".audio.media.list").on("click", ".delete.song.button", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+    $(".audio.media.list").on("click", "#deleteItemButton", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
         console.log("Elimino la canción");
         var self = this;
         var id = $(self).data("songid");
@@ -164,7 +164,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         });
     });
 
-    $(".audio.media.list").on("click", ".edit.song.button", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+    $(".audio.media.list").on("click", "#editItemButton", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
         console.log("Traigo los campos de la canción y pinto formulario");
         showForm();
         var self = this;
