@@ -4,19 +4,20 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
 	// Funcionalidad tipo SPA
 	function showIndex() {
-		console.log("Pintamos el listado de items guardados en la db"); 
+		console.log("Pintamos el listado de items guardados en la db");
 		$(".loading").addClass( "hidden" );
 		$("#addItemButton").removeClass( "hidden" );
-		$("#cancelItemButton").addClass( "hidden" );		
+		$("#cancelItemButton").addClass( "hidden" );
 		$("form").addClass( "hidden" );
 		$("main").removeClass( "hidden" );
+
 	}
 
 	function showForm() {
 		console.log("Pintamos el formulario");
 		$(".loading").addClass( "hidden" );
 		$("#addItemButton").addClass( "hidden" );
-		$("#cancelItemButton").removeClass( "hidden" );		
+		$("#cancelItemButton").removeClass( "hidden" );
 		$("form").removeClass( "hidden" );
 		$("main").addClass( "hidden" );
   		$("#artist").focus(); //ponemos el foco en el primer input
@@ -34,7 +35,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
 	// Funcionalidad del formulario
     $("form").on("submit", function() { //cuando se intente enviar
-        
+
         var artist = $.trim($("#artist").val());
         var title = $.trim($("#song").val());
 
@@ -63,7 +64,32 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             alert("La url de la imagen no es válida");
             return false;
         }
+        console.log("Antes de entrar en la condición", $("#idElem").val());
+       if($("#idElem").val()){
+       		console.log("Petición de edición iniciada");
+        $.ajax({ //preparación de la petición de añadir canción
+            method: 'put',
+            url: "/api/playlist/" + ($("#idElem").val()),
+            data: JSON.stringify({
+                artist: $("#artist").val(),
+                url_image: $("#image").val(),
+                url_audio: $("#audio").val(),
+                title: $("#song").val()
+            }),
+            contentType: 'application/json',
+            success: function(data) {
+            	showIndex();
+                alert("Guardado con éxito");
+            },
+            error: function() {
+                alert("Se ha producido un error");
+            }
+        });
 
+        }
+
+
+        else{
         // Guardar item
         console.log("Petición de guardado iniciada");
         $.ajax({ //preparación de la petición de añadir canción
@@ -76,16 +102,18 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 title: title
             }),
             contentType: 'application/json',
-            success: function() {
+            success: function(data) {
+            	showIndex();
                 alert("Guardado con éxito");
             },
             error: function() {
                 alert("Se ha producido un error");
             }
         });
-
+    }
         return false;
     });
+
 
     // Pintar lista de items guardados en la db
     $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
@@ -117,7 +145,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     // Eliminar item
     $(".audio.media.list").on("click", ".delete.song.button", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-        console.log("Elimino la serie");
+        console.log("Elimino la canción");
         var self = this;
         var id = $(self).data("songid");
 
@@ -126,14 +154,17 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             method: "delete",
             success: function() {
                 $(self).parent().parent().remove();
+            },
+            error: function() {
+                alert("Se ha producido un error al eliminar");
             }
         });
 	});
 
-	showIndex();
 
 	$(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-			console.log("Traigo los campos de la canción");
+			console.log("Traigo los campos de la canción y pinto formulario");
+			showForm();
 			var self = this;
 			var id = $(self).data("songid");
 
@@ -146,57 +177,20 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
  				$("#song").val(data.title);
  				$("#audio").val(data.url_audio);
  				$("#image").val(data.url_image);
- 				}
+ 				$("#idElem").val(id);
+ 				console.log("El id es", id);
+ 				},
+ 			error: function() {
+                alert("Se ha producido un error al editar");
+            }
 			});
-     		//$("form").on("submit", function(){ //si el id está vacío está creando si el ID está creado está editando
-			//});
+     		//si el id está vacío está creando si el ID está creado está editando
+
 
 	});
+	showIndex();
 
 });
 
 
 
-/*
-    $(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-        console.log("Edito la serie");
-        var self = this;
-        var id = $(self).data("songid");
-
-        $.ajax({
-            url: "/api/playlist/" + id,
-            method: "put",
-            success: function(){
-                $(self).parent().parent().edit();
-            }
-        });
-	});
-*/
-
-
-/*
-    $(".audio.media.list").on(".edit.song.button", "click", function(){
-        var $li = $(this).closest("li");
-        $li.find(".item.artist").val($li.find("input.artist").html());
-        $li.find(".item.title").val($li.find("input.title").html());
-    });
-/*
-
-/*
-    $("#reloadSeriesButton").on("click", reloadSeries);
-
-    reloadSeries();
-
-    $("#seriesList").on("click", "button", function(){
-        console.log("Elimino la serie");
-        var self = this;
-        var id = $(self).data("serieid"); // cojo el valor del atributo data-serieid del botón
-
-        $.ajax({
-            url: "/api/series/" + id,
-            method: "delete",
-            success: function(){
-                $(self).parent().remove();
-        }
-    });
-*/
