@@ -114,6 +114,12 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
  				$("#image").val(data.url_image);
  				}
 			});
+			$("form").on("submit", function(){
+//si el id está vacío está creando si el ID está creado está editando
+
+				});
+
+			});
 
 
 		});
