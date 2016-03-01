@@ -17,7 +17,7 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 		}
 
 		var url_audio = $.trim($("#audio").val());
-		var url_image = $.trim($("#imagen").val());
+		var url_image = $.trim($("#image").val());
 
 		var pattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ig;
 
@@ -26,7 +26,7 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 			return false;
 		}
 
-		if( url_image !="" && pattern.test(url_image) == false){ //validación de la url de la imagen
+		if( url_image =="" && pattern.test(url_image) == false){ //validación de la url de la imagen
 			alert("La url de la imagen no es válida");
 			return false;
 		}
@@ -72,8 +72,8 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 						html += "<img src=\""+ image + "\"></img>";
 						console.log("La URL de la imagen es ",image);
 						html += "<audio controls><source src= \" "+ audio + " \" type=audio/mpeg ></audio>";
-						html += "<button id=\"edit song button\" data-songid=" + id + ">Editar</button>";
-						html += "<button id=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
+						html += "<button class=\"edit song button\" data-songid=" + id + ">Editar</button>";
+						html += "<button class=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
 						html += "</li>";
 						html += "</article>";
 					}
@@ -84,7 +84,7 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 
 
 	$(".audio.media.list").on("click", ".delete.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-			console.log("Elimino la serie");
+			console.log("Elimino la canción");
 			var self = this;
 			var id = $(self).data("songid");
 
@@ -92,12 +92,36 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 					url: "/api/playlist/" + id,
 					method: "delete",
 					success: function(){
-						$(self).parent().remove();
+						$(self).parent().parent().remove();
 					}
 				});
 });
 
+
+	$(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+			console.log("Traigo los campos de la canción");
+			var self = this;
+			var id = $(self).data("songid");
+
+		$.ajax({
+ 			method: "GET",
+ 			url: "/api/playlist/" + id,
+ 			success: function(data){
+ 				console.log("Los datos son: ", data);
+ 				$("#artist").val(data.artist);
+ 				$("#song").val(data.title);
+ 				$("#audio").val(data.url_audio);
+ 				$("#image").val(data.url_image);
+ 				}
+			});
+
+
+		});
+
+
 });
+
+
 /*
 
 	$(".audio.media.list").on(".edit.song.button", "click", function(){
@@ -105,18 +129,19 @@ $(document).ready(function(){//Cuando la página se ha cargado por completo
 		$li.find(".item.artist").val($li.find("input.artist").html());
 		$li.find(".item.title").val($li.find("input.title").html());
 	})
-});
-
 */
 
 
-   /*
 
 
 
 
 
-		}
+
+
+
+//}
+/*
 
 		$("#reloadSeriesButton").on("click", reloadSeries);
 
