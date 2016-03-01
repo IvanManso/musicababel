@@ -10,6 +10,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 		$("#cancelItemButton").addClass( "hidden" );		
 		$("form").addClass( "hidden" );
 		$("main").removeClass( "hidden" );
+		reloadItems();
 	}
 
 	function showForm() {
@@ -77,43 +78,47 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             }),
             contentType: 'application/json',
             success: function() {
-                alert("Guardado con éxito");
+            	showIndex();
+                //alert("Guardado con éxito");
             },
             error: function() {
                 alert("Se ha producido un error");
             }
         });
-
         return false;
     });
 
     // Pintar lista de items guardados en la db
-    $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
-        url: "/api/playlist/",
-        success: function(data) {
-            console.log("Lista de items", data);
-            var html = "";
-            for (var i in data) {
-                var id = data[i].id;
-                var title = data[i].title;
-                var artist = data[i].artist;
-                var image = data[i].url_image;
-                var audio = data[i].url_audio;
-                html += "<article>";
-                html += "<li>";
-                html += title;
-                html += artist;
-                html += "<img src=\"" + image + "\"></img>";
-                console.log("La URL de la imagen es ", image);
-                html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
-                html += "<button class=\"edit song button\" data-songid=" + id + ">Editar</button>";
-                html += "<button class=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
-                html += "</li>";
-                html += "</article>";
-            }
-            $(".audio.media.list").html(html); // innerHTML = html
-        }
-    });
+    function reloadItems() {
+    	
+	    $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
+	        url: "/api/playlist/",
+	        success: function(data) {
+	            console.log("Cargando lista de items", data);
+	            var html = "";
+	            for (var i in data) {
+	                var id = data[i].id;
+	                var title = data[i].title;
+	                var artist = data[i].artist;
+	                var image = data[i].url_image;
+	                var audio = data[i].url_audio;
+	                console.log("Item", i, title);
+	                html += "<article>";
+	                html += "<li>";
+	                html += title;
+	                html += artist;
+	                html += "<img src=\"" + image + "\"></img>";
+	                html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
+	                html += "<button class=\"edit song button\" data-songid=" + id + ">Editar</button>";
+	                html += "<button class=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
+	                html += "</li>";
+	                html += "</article>";
+            	}
+            	$(".audio.media.list").html(html); // innerHTML = html
+	        }
+	    });
+
+    }
 
     // Eliminar item
     $(".audio.media.list").on("click", ".delete.song.button", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
@@ -130,10 +135,9 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         });
 	});
 
-	showIndex();
-
 	$(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-			console.log("Traigo los campos de la canción");
+			console.log("Traigo los campos de la canción y pinto formulario");
+			showForm();
 			var self = this;
 			var id = $(self).data("songid");
 
@@ -152,6 +156,8 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 			//});
 
 	});
+
+	showIndex();
 
 });
 
