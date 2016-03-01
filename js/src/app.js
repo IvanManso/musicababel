@@ -21,7 +21,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         $("form").trigger("reset");
         $("form").removeClass("hidden");
         $("main").addClass("hidden");
-        $("#artist").focus(); //ponemos el foco en el primer input
+        $("#song").focus(); //ponemos el foco en el primer input
     }
 
     $("#addItemButton").on("click", function() {
@@ -113,7 +113,6 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         return false;
     });
 
-
     // Pintar lista de items guardados en la db
     function reloadItems() {
 
@@ -129,16 +128,26 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     var image = data[i].url_image;
                     var audio = data[i].url_audio;
                     console.log("Item", i, title);
-                    html += "<article>";
-                    html += "<li><label><div class=\"item meta\">";
+                    html += "<tr>";
+                    html += "<td>";
+                    html += "<img src=\"" + image + "\"></img>";
+                    html += "</td>";
+                    html += "<td>";
+                    html += "<div class=\"item meta\">";
                     html += "<h3>" + title + "</h3>";
                     html += "<h4>" + artist + "</h4>";
-                    html += "</div><img src=\"" + image + "\"></img></label>";
-                    html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
-                    html += "<div class=\"item buttons\"><button class=\"edit song button\" id=\"editItemButton\" data-songid=" + id + ">Editar</button>";
+                    html += "</div>";
+                    html += "</td>";
+                    html += "<td>";
+                    html += "<div class=\"item buttons\">";
+                    html += "<button class=\"edit song button\" id=\"editItemButton\" data-songid=" + id + ">Editar</button>";
                     html += "<button class=\"delete song button\" id=\"deleteItemButton\" data-songid=" + id + ">Eliminar</button></div>";
-                    html += "</li>";
-                    html += "</article>";
+                    html += "</div>";
+                    html += "</td>";
+                    html += "</tr>";
+                    html += "<tr>";
+                    html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
+                    html += "</tr>";
                 }
                 $(".audio.media.list").html(html); // innerHTML = html
             }
