@@ -1,105 +1,103 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>musicababel</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>musicababel</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-
-	<header class="web header">
-		<div class="container">
-			<div class="row">
-				<div class="eight columns">
-		        	<div class="brand">
-		        		<h1>MúsicaBabel</h1>
-		        	</div>
-				</div>
-			    <div class="four columns">
-			        <div class="item add">
-			            <button href="#" id="addItemButton" class="button-primary hidden">Añadir canción</button>
-			            <button href="#" id="cancelItemButton" class="button-primary hidden">Cancelar</button>
-					</div>
-			    </div>
-	        </div>
-		</div>
+    <header class="web header">
+        <div class="container">
+            <div class="row">
+                <div class="eight columns">
+                    <div class="brand">
+                        <h1>MúsicaBabel</h1>
+                    </div>
+                </div>
+                <div class="four columns">
+                    <div class="item add">
+                        <button href="#" id="addItemButton" class="button-primary hidden">Añadir canción</button>
+                        <button href="#" id="cancelItemButton" class="button-primary hidden">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
-
     <div class="loading">
-    	<h3>LOADING...</h3>
+        <h3>LOADING...</h3>
     </div>
-
-	<main class="web main hidden">
-		<div class="container">
-			<section class="audio media list">
-				<div class="row">
-					<article class="audio media item">
-						<div class="two columns">
-							<img src="http://www.quedeletras.com/caratulas/200802100114_grande.jpg" alt="Carátula de canción" title="Carátula de canción" class="item image">
-						</div>
-						<div class="seven columns">
-							<div class="item meta">
-								<h3 class="item title">Título de canción</h3>
-								<h4 class="item author">Nombre del artista</h4>
-							</div>
-						</div>
-						<div class="three columns">
-							<div class="item buttons">
-								<button type="submit" class="item edit">Editar</button>
-								<button type="submit" class="item delete">Eliminar</button>
-							</div>
-						</div>
-					</article>
-				</div>
-			</section>
-		</div>
-	</main>
-	<form novalidate class="web form hidden">
-			<div class="container">
-				<div class="row">
-					<input id="idElem" hidden></input>
-					<div>
-						<label>
-							<h3>Artista</h3>
-							<input type="text" class="item input artist" id ="artist" name="artist" placeholder="Introduce el nombre del artista" required></input>
-						</label>
-					</div>
-					<div>
-						<label>
-							<h3>Título</h3>
-							<input type="text" class="item input title" id="song" name="song" placeholder="Introduce el título de la canción" required></input>
-						</label>
-					</div>
-					<div>
-						<label>
-							<h3>URL Canción</h3>
-							<input type="url" class="item input url song" id="audio" name="audio" placeholder="Introduce la url de la canción" required></input>
-						</label>
-					</div>
-					<div>
-						<label>
-							<h3>URL Imagen</h3>
-							<input type="url" class="item input url image" id="image" name="image" placeholder="Introduce la url de la imagen"></input>
-						</label>
-					</div>
-					<div>
-						<button type="submit" id="saveItemButton">Guardar</button>
-					</div>
-				</div>
-			</div>
-		</form>
-	<hr>
-	<footer class="web footer">
-		<h3 class="item title">Título de canción</h3>
-		<h4 class="item author">Nombre del artista</h4>
-		<audio controls>
-			<source src="#" type="audio/mp3">
-		</audio>
-	</footer>
-
-	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <main class="web main hidden">
+        <div class="container">
+            <section class="audio media list">
+                <div class="row">
+                    <article class="audio media item">
+                        <div class="two columns">
+                            <img src="http://www.quedeletras.com/caratulas/200802100114_grande.jpg" alt="Carátula de canción" title="Carátula de canción" class="item image">
+                        </div>
+                        <div class="seven columns">
+                            <div class="item meta">
+                                <h3 class="item title">Título de canción</h3>
+                                <h4 class="item author">Nombre del artista</h4>
+                            </div>
+                        </div>
+                        <div class="three columns">
+                            <div class="item buttons">
+                                <button type="submit" class="item edit">Editar</button>
+                                <button type="submit" class="item delete">Eliminar</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+    <form novalidate class="web form hidden">
+        <div class="container">
+            <div class="row">
+                <input id="idElem" hidden></input>
+                <div>
+                    <label>
+                        <h3>Artista</h3>
+                        <input type="text" class="item input artist" id="artist" name="artist" placeholder="Introduce el nombre del artista" required></input>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>Título</h3>
+                        <input type="text" class="item input title" id="song" name="song" placeholder="Introduce el título de la canción" required></input>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>URL Canción</h3>
+                        <input type="url" class="item input url song" id="audio" name="audio" placeholder="Introduce la url de la canción" required></input>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>URL Imagen</h3>
+                        <input type="url" class="item input url image" id="image" name="image" placeholder="Introduce la url de la imagen"></input>
+                    </label>
+                </div>
+                <div>
+                    <button type="submit" id="saveItemButton">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <footer class="web footer">
+        <h3 class="item title">Título de canción</h3>
+        <h4 class="item author">Nombre del artista</h4>
+        <audio controls>
+            <source src="#" type="audio/mp3">
+        </audio>
+    </footer>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="js/src/app.js"></script>
-
 </body>
+
 </html>

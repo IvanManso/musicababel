@@ -1,39 +1,40 @@
 $(document).ready(function() { //Cuando la página se ha cargado por completo
 
-	console.log("Document ready");
+    console.log("Document ready");
 
-	// Funcionalidad tipo SPA
-	function showIndex() {
-		console.log("Pintamos el listado de items guardados en la db");
-		$(".loading").addClass( "hidden" );
-		$("#addItemButton").removeClass( "hidden" );
-		$("#cancelItemButton").addClass( "hidden" );
-		$("form").addClass( "hidden" );
-		$("main").removeClass( "hidden" );
-		reloadItems();
-	}
+    // Funcionalidad tipo SPA
+    function showIndex() {
+        console.log("Pintamos el listado de items guardados en la db");
+        $(".loading").addClass("hidden");
+        $("#addItemButton").removeClass("hidden");
+        $("#cancelItemButton").addClass("hidden");
+        $("form").addClass("hidden");
+        $("main").removeClass("hidden");
+        reloadItems();
+    }
 
-	function showForm() {
-		console.log("Pintamos el formulario");
-		$(".loading").addClass( "hidden" );
-		$("#addItemButton").addClass( "hidden" );
-		$("#cancelItemButton").removeClass( "hidden" );
-		$("form").removeClass( "hidden" );
-		$("main").addClass( "hidden" );
-  		$("#artist").focus(); //ponemos el foco en el primer input
-	}
+    function showForm() {
+        console.log("Pintamos el formulario");
+        $(".loading").addClass("hidden");
+        $("#addItemButton").addClass("hidden");
+        $("#cancelItemButton").removeClass("hidden");
+        $("form").trigger("reset");
+        $("form").removeClass("hidden");
+        $("main").addClass("hidden");
+        $("#artist").focus(); //ponemos el foco en el primer input
+    }
 
-	$("#addItemButton").on("click", function(){
-		console.log("Click en añadir, mostramos formulario");
-		showForm();
-	});
+    $("#addItemButton").on("click", function() {
+        console.log("Click en añadir, mostramos formulario");
+        showForm();
+    });
 
-	$("#cancelItemButton").on("click", function(){
-		console.log("Click en cancelar, mostramos lista");
-		showIndex();
-	});
+    $("#cancelItemButton").on("click", function() {
+        console.log("Click en cancelar, mostramos lista");
+        showIndex();
+    });
 
-	// Funcionalidad del formulario
+    // Funcionalidad del formulario
     $("form").on("submit", function() { //cuando se intente enviar
 
         var artist = $.trim($("#artist").val());
@@ -65,86 +66,83 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             return false;
         }
         console.log("Antes de entrar en la condición", $("#idElem").val());
-       if($("#idElem").val()){
-       		console.log("Petición de edición iniciada");
-        $.ajax({ //preparación de la petición de añadir canción
-            method: 'put',
-            url: "/api/playlist/" + ($("#idElem").val()),
-            data: JSON.stringify({
-                artist: $("#artist").val(),
-                url_image: $("#image").val(),
-                url_audio: $("#audio").val(),
-                title: $("#song").val()
-            }),
-            contentType: 'application/json',
-            success: function(data) {
-            	showIndex();
-                alert("Guardado con éxito");
-            },
-            error: function() {
-                alert("Se ha producido un error");
-            }
-        });
+        if ($("#idElem").val()) {
+            console.log("Petición de edición iniciada");
+            $.ajax({ //preparación de la petición de añadir canción
+                method: 'put',
+                url: "/api/playlist/" + ($("#idElem").val()),
+                data: JSON.stringify({
+                    artist: $("#artist").val(),
+                    url_image: $("#image").val(),
+                    url_audio: $("#audio").val(),
+                    title: $("#song").val()
+                }),
+                contentType: 'application/json',
+                success: function(data) {
+                    showIndex();
+                    alert("Guardado con éxito");
+                },
+                error: function() {
+                    alert("Se ha producido un error");
+                }
+            });
+
+        } else {
+            // Guardar item
+            console.log("Petición de guardado iniciada");
+            $.ajax({ //preparación de la petición de añadir canción
+                method: 'post',
+                url: "/api/playlist",
+                data: JSON.stringify({
+                    artist: artist,
+                    url_image: url_image,
+                    url_audio: url_audio,
+                    title: title
+                }),
+                contentType: 'application/json',
+                success: function() {
+                    showIndex();
+                    alert("Guardado con éxito");
+                },
+                error: function() {
+                    alert("Se ha producido un error");
+                }
+            });
 
         }
-
-
-        else{
-        // Guardar item
-        console.log("Petición de guardado iniciada");
-        $.ajax({ //preparación de la petición de añadir canción
-            method: 'post',
-            url: "/api/playlist",
-            data: JSON.stringify({
-                artist: artist,
-                url_image: url_image,
-                url_audio: url_audio,
-                title: title
-            }),
-            contentType: 'application/json',
-            success: function() {
-            	showIndex();
-                alert("Guardado con éxito");
-            },
-            error: function() {
-                alert("Se ha producido un error");
-            }
-        });
-
-    }
         return false;
     });
 
 
     // Pintar lista de items guardados en la db
     function reloadItems() {
-    	
-	    $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
-	        url: "/api/playlist/",
-	        success: function(data) {
-	            console.log("Cargando lista de items", data);
-	            var html = "";
-	            for (var i in data) {
-	                var id = data[i].id;
-	                var title = data[i].title;
-	                var artist = data[i].artist;
-	                var image = data[i].url_image;
-	                var audio = data[i].url_audio;
-	                console.log("Item", i, title);
-	                html += "<article>";
-	                html += "<li>";
-	                html += title;
-	                html += artist;
-	                html += "<img src=\"" + image + "\"></img>";
-	                html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
-	                html += "<button class=\"edit song button\" data-songid=" + id + ">Editar</button>";
-	                html += "<button class=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
-	                html += "</li>";
-	                html += "</article>";
-            	}
-            	$(".audio.media.list").html(html); // innerHTML = html
-	        }
-	    });
+
+        $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
+            url: "/api/playlist/",
+            success: function(data) {
+                console.log("Cargando lista de items", data);
+                var html = "";
+                for (var i in data) {
+                    var id = data[i].id;
+                    var title = data[i].title;
+                    var artist = data[i].artist;
+                    var image = data[i].url_image;
+                    var audio = data[i].url_audio;
+                    console.log("Item", i, title);
+                    html += "<article>";
+                    html += "<li>";
+                    html += title;
+                    html += artist;
+                    html += "<img src=\"" + image + "\"></img>";
+                    html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
+                    html += "<button class=\"edit song button\" data-songid=" + id + ">Editar</button>";
+                    html += "<button class=\"delete song button\" data-songid=" + id + ">Eliminar</button>";
+                    html += "</li>";
+                    html += "</article>";
+                }
+                $(".audio.media.list").html(html); // innerHTML = html
+            }
+        });
 
     }
 
@@ -164,36 +162,33 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 alert("Se ha producido un error al eliminar");
             }
         });
-	});
+    });
 
-	$(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-			console.log("Traigo los campos de la canción y pinto formulario");
-			showForm();
-			var self = this;
-			var id = $(self).data("songid");
+    $(".audio.media.list").on("click", ".edit.song.button", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+        console.log("Traigo los campos de la canción y pinto formulario");
+        showForm();
+        var self = this;
+        var id = $(self).data("songid");
 
-		$.ajax({
- 			method: "GET",
- 			url: "/api/playlist/" + id,
- 			success: function(data){
- 				console.log("Los datos son: ", data);
- 				$("#artist").val(data.artist);
- 				$("#song").val(data.title);
- 				$("#audio").val(data.url_audio);
- 				$("#image").val(data.url_image);
- 				$("#idElem").val(id);
- 				console.log("El id es", id);
- 				},
- 			error: function() {
+        $.ajax({
+            method: "GET",
+            url: "/api/playlist/" + id,
+            success: function(data) {
+                console.log("Los datos son: ", data);
+                $("#artist").val(data.artist);
+                $("#song").val(data.title);
+                $("#audio").val(data.url_audio);
+                $("#image").val(data.url_image);
+                $("#idElem").val(id);
+                console.log("El id es", id);
+            },
+            error: function() {
                 alert("Se ha producido un error al editar");
             }
-			});
-     		//si el id está vacío está creando si el ID está creado está editando
-	});
-	
-	showIndex();
+        });
+        //si el id está vacío está creando si el ID está creado está editando
+    });
+
+    showIndex();
 
 });
-
-
-
