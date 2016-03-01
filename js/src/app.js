@@ -26,6 +26,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 		console.log("Click en añadir, mostramos formulario");
 		showForm();
 	});
+
 	$("#cancelItemButton").on("click", function(){
 		console.log("Click en cancelar, mostramos lista");
 		showIndex();
@@ -84,7 +85,6 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         });
 
         return false;
-
     });
 
     // Pintar lista de items guardados en la db
@@ -128,70 +128,75 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 $(self).parent().parent().remove();
             }
         });
-
 	});
 
 	showIndex();
 
+	$(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+			console.log("Traigo los campos de la canción");
+			var self = this;
+			var id = $(self).data("songid");
+
+		$.ajax({
+ 			method: "GET",
+ 			url: "/api/playlist/" + id,
+ 			success: function(data){
+ 				console.log("Los datos son: ", data);
+ 				$("#artist").val(data.artist);
+ 				$("#song").val(data.title);
+ 				$("#audio").val(data.url_audio);
+ 				$("#image").val(data.url_image);
+ 				}
+			});
+     		//$("form").on("submit", function(){ //si el id está vacío está creando si el ID está creado está editando
+			//});
+
+	});
+
 });
 
 
-    /*
-        $(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-                console.log("Edito la serie");
-                var self = this;
-                var id = $(self).data("songid");
 
-            $.ajax({
-                        url: "/api/playlist/" + id,
-                        method: "put",
-                        success: function(){
-                            $(self).parent().parent().edit();
-                        }
-                    });
-    });
-        */
+/*
+    $(".audio.media.list").on("click", ".edit.song.button", function(){ //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
+        console.log("Edito la serie");
+        var self = this;
+        var id = $(self).data("songid");
+
+        $.ajax({
+            url: "/api/playlist/" + id,
+            method: "put",
+            success: function(){
+                $(self).parent().parent().edit();
+            }
+        });
+	});
+*/
 
 
 /*
-
     $(".audio.media.list").on(".edit.song.button", "click", function(){
         var $li = $(this).closest("li");
         $li.find(".item.artist").val($li.find("input.artist").html());
         $li.find(".item.title").val($li.find("input.title").html());
-    })
-*/
-
-
-
-
-
-
-
-
-
-
-//}
+    });
 /*
 
-        $("#reloadSeriesButton").on("click", reloadSeries);
+/*
+    $("#reloadSeriesButton").on("click", reloadSeries);
 
-        reloadSeries();
+    reloadSeries();
 
-        $("#seriesList").on("click", "button", function(){
-            console.log("Elimino la serie");
-            var self = this;
-            var id = $(self).data("serieid"); // cojo el valor del atributo data-serieid del botón
+    $("#seriesList").on("click", "button", function(){
+        console.log("Elimino la serie");
+        var self = this;
+        var id = $(self).data("serieid"); // cojo el valor del atributo data-serieid del botón
 
-            $.ajax({
-                url: "/api/series/" + id,
-                method: "delete",
-                success: function(){
-                    $(self).parent().remove();
-                }
-            });
-
-        });
-});
-
+        $.ajax({
+            url: "/api/series/" + id,
+            method: "delete",
+            success: function(){
+                $(self).parent().remove();
+        }
+    });
 */
