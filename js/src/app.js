@@ -210,9 +210,11 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             success: function(data) {
                 console.log("Los datos son: ", data);
                  $("audio").attr("src", data.url_audio);
+                 $("audio").attr("id", data.id)
                  console.log("El titulo y autor es", data.title, data.artist);
                  $(".item.title.footer").html(data.title);
                  $(".item.author.footer").html(data.artist);
+
             },
             error: function() {
                 alert("Se ha producido un error al intentar añadir al reproductor");
@@ -221,4 +223,16 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         });
 
     });
+
+    $(".item.output.audio").on("ended", function(){ //controlamos cuando acaba la canción
+        var myAudio = $(".item.output.audio");
+        if(myAudio.currentTime == 0){
+            reproducirSiguiente();
+        }
+     });
+
+   // function reproducirSiguiente(){
+
+   // }
+
 });
