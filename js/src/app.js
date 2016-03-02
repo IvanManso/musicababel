@@ -165,7 +165,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             url: "/api/playlist/" + id,
             method: "delete",
             success: function() {
-                $(self).parent().parent().remove();
+                $(self).parent().parent().parent().remove();
             },
             error: function() {
                 alert("Se ha producido un error al eliminar");
