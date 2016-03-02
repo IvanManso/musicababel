@@ -130,10 +130,10 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     console.log("Item", i, title);
                     html += "<tr>";
                     html += "<td>";
-                    html += "<img src=\"" + image + "\"></img>";
+                    html += "<img src=\"" + image + "\" class=\"item meta\"></img>";
                     html += "</td>";
                     html += "<td>";
-                    html += "<div class=\"item meta\">";
+                    html += "<div class=\"item meta\" data-songid=" + id + ">";
                     html += "<h3>" + title + "</h3>";
                     html += "<h4>" + artist + "</h4>";
                     html += "</div>";
@@ -200,4 +200,25 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     showIndex();
 
+    $("body").on("click", ".item.meta", function(){   //añade al reproductor la canción seleccionada
+        console.log("Voy a añadir una canción al reproductor");
+        var self = this;
+        var id = $(self).data("songid");
+        $.ajax({
+            method: "GET",
+            url: "/api/playlist/" + id,
+            success: function(data) {
+                console.log("Los datos son: ", data);
+                 $("audio").attr("src", data.url_audio);
+                 console.log("El titulo y autor es", data.title, data.artist);
+                 $(".item.title.footer").html(data.title);
+                 $(".item.author.footer").html(data.artist);
+            },
+            error: function() {
+                alert("Se ha producido un error al intentar añadir al reproductor");
+            }
+
+        });
+
+    });
 });
