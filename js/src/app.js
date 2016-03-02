@@ -145,9 +145,6 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     html += "</div>";
                     html += "</td>";
                     html += "</tr>";
-                    html += "<tr>";
-                    html += "<audio controls><source src= \" " + audio + " \" type=audio/mpeg ></audio>";
-                    html += "</tr>";
                 }
                 $(".audio.media.list").html(html); // innerHTML = html
             }
@@ -224,12 +221,12 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     });
 
-    $(".item.output.audio").on("ended", function(){ //controlamos cuando acaba la canción
-        var myAudio = $(".item.output.audio");
-        if(myAudio.currentTime == 0){
-            reproducirSiguiente();
-        }
-     });
+    // $(".item.output.audio").on("ended", function(){ //controlamos cuando acaba la canción
+    //     var myAudio = $(".item.output.audio");
+    //     if(myAudio.currentTime == 0){
+    //         reproducirSiguiente();
+    //     }
+    //  });
 
    // function reproducirSiguiente(){
 
