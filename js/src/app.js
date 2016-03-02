@@ -130,10 +130,10 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     console.log("Item", i, title);
                     html += "<tr>";
                     html += "<td>";
-                    html += "<img src=\"" + image + "\" class=\"item meta\"></img>";
+                    html += "<img src=\"" + image + "\" class=\"item meta image\" data-songid=" + id + "></img>";
                     html += "</td>";
                     html += "<td>";
-                    html += "<div class=\"item meta\" data-songid=" + id + ">";
+                    html += "<div class=\"item meta title\" data-songid=" + id + ">";
                     html += "<h3>" + title + "</h3>";
                     html += "<h4>" + artist + "</h4>";
                     html += "</div>";
@@ -197,20 +197,18 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     showIndex();
 
-    $("body").on("click", ".item.meta", function(){   //añade al reproductor la canción seleccionada
-        console.log("Voy a añadir una canción al reproductor");
-        var self = this;
-        var id = $(self).data("songid");
+    function playItem(id) {
+
         $.ajax({
             method: "GET",
             url: "/api/playlist/" + id,
             success: function(data) {
                 console.log("Los datos son: ", data);
-                 $("audio").attr("src", data.url_audio);
-                 $("audio").attr("id", data.id)
-                 console.log("El titulo y autor es", data.title, data.artist);
-                 $(".item.title.footer").html(data.title);
-                 $(".item.author.footer").html(data.artist);
+                $("audio").attr("src", data.url_audio);
+                $("audio").attr("id", data.id)
+                console.log("El titulo y autor es", data.title, data.artist);
+                $(".item.title.footer").html(data.title);
+                $(".item.author.footer").html(data.artist);
 
             },
             error: function() {
@@ -218,18 +216,53 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             }
 
         });
+    }
+
+    $("body").on("click", ".item.meta", function() { //añade al reproductor la canción seleccionada
+        console.log("Voy a añadir una canción al reproductor");
+        var self = this;
+        var id = $(self).data("songid");
+        playItem(id);
 
     });
 
-    // $(".item.output.audio").on("ended", function(){ //controlamos cuando acaba la canción
-    //     var myAudio = $(".item.output.audio");
-    //     if(myAudio.currentTime == 0){
-    //         reproducirSiguiente();
-    //     }
-    //  });
+    $(".item.output.audio").on("ended", function() { //controlamos cuando acaba la canción
+        console.log("La canción ha terminado");
+        var idPlay = $(".item.meta.title").data("songid");
+        nextItem(idPlay);
+    });
 
-   // function reproducirSiguiente(){
+    var idActual = 0;
+    var idNext = 0;
+    var arrayId = new Array();
 
-   // }
-
+    function nextItem(idPlay) {
+        console.log("Se va a reproducir la canción siguiente");
+        console.log("El id de la canción que ha terminado es ", idPlay);
+        var z = 0;
+        $.ajax({
+            method: "GET",
+            url: "/api/playlist/",
+            success: function(data) {
+                console.log("Los datos son ", data);
+                for (var i in data) {
+                    arrayId[z] = data[i].id;
+                    console.log("Los datos actuales del arrayId son ", arrayId[z]);
+                    z++;
+                }
+                for (var j = 0; j < arrayId.length; j++) {
+                    idActual = arrayId[j];
+                    idNext = arrayId[j + 1];
+                    console.log("El id actual y siguiente son ", idActual, idNext);
+                    if (idActual == idPlay) { //si el id actual es el que se acaba de reproducir cogemos el siguiente
+                        console.log("Vamos a pasar a la siguiente canción cuyo id es", idNext);
+                        playItem(idNext);
+                    }
+                }
+            },
+            error: function() {
+                alert("Se ha producido un error al editar");
+            }
+        });
+    }
 });
