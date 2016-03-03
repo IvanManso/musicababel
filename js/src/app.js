@@ -233,7 +233,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         });
     }
 
-    $("body").on("click", ".item.meta", function() { //añade al reproductor la canción seleccionada
+    $("body").on("click", ".item.meta.title", function() { //añade al reproductor la canción seleccionada
         console.log("Voy a añadir una canción al reproductor");
         var self = this;
         var id = $(self).data("songid"); //sólo coloca ese id en songid con el primer click
