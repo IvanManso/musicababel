@@ -14,6 +14,13 @@ A continuación clona el repositorio e instala las dependencias para grunt con `
 
 Después arranca *grunt*, utlizando el comando `grunt`
 
+## Changelog
+
+### v.0.1.0 - 2016-03-03
+
+* MVP: Layout responsive en móviles, tablets y pantallas de escritorio.
+* MVP: Funcionalidad básica, reproducir canción, añadir, editar y eliminar.
+
 ## Canciones de prueba
 
 [Fuente de canciones](http://www.bensound.com/royalty-free-music)

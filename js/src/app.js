@@ -1,10 +1,10 @@
 $(document).ready(function() { //Cuando la página se ha cargado por completo
 
-    console.log("Document ready");
+    //console.log("Document ready");
 
     // Funcionalidad tipo SPA
     function showIndex() {
-        console.log("Pintamos el listado de items guardados en la db");
+        //console.log("Pintamos el listado de items guardados en la db");
         $(".loading").addClass("hidden");
         $("#addItemButton").removeClass("hidden");
         $("#cancelItemButton").addClass("hidden");
@@ -14,7 +14,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     }
 
     function showForm() {
-        console.log("Pintamos el formulario");
+        //console.log("Pintamos el formulario");
         $(".loading").addClass("hidden");
         $("#addItemButton").addClass("hidden");
         $("#cancelItemButton").removeClass("hidden");
@@ -25,12 +25,12 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     }
 
     $("#addItemButton").on("click", function() {
-        console.log("Click en añadir, mostramos formulario");
+        //console.log("Click en añadir, mostramos formulario");
         showForm();
     });
 
     $("#cancelItemButton").on("click", function() {
-        console.log("Click en cancelar, mostramos lista");
+        //console.log("Click en cancelar, mostramos lista");
         showIndex();
     });
 
@@ -65,9 +65,9 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             alert("La url de la imagen no es válida");
             return false;
         }
-        console.log("Antes de entrar en la condición", $("#idElem").val());
+        //console.log("Antes de entrar en la condición", $("#idElem").val());
         if ($("#idElem").val()) {
-            console.log("Petición de edición iniciada");
+            //console.log("Petición de edición iniciada");
             $.ajax({ //preparación de la petición de añadir canción
                 method: 'put',
                 url: "/api/playlist/" + ($("#idElem").val()),
@@ -80,7 +80,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 contentType: 'application/json',
                 success: function(data) {
                     showIndex();
-                    alert("Guardado con éxito");
+                    //alert("Guardado con éxito");
                 },
                 error: function() {
                     alert("Se ha producido un error");
@@ -89,7 +89,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
         } else {
             // Guardar item
-            console.log("Petición de guardado iniciada");
+            //console.log("Petición de guardado iniciada");
             $.ajax({ //preparación de la petición de añadir canción
                 method: 'post',
                 url: "/api/playlist",
@@ -102,7 +102,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 contentType: 'application/json',
                 success: function() {
                     showIndex();
-                    alert("Guardado con éxito");
+                    //alert("Guardado con éxito");
                 },
                 error: function() {
                     alert("Se ha producido un error");
@@ -119,7 +119,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
             url: "/api/playlist/",
             success: function(data) {
-                console.log("Cargando lista de items", data);
+                //console.log("Cargando lista de items", data);
                 var html = "";
                 for (var i in data) {
                     var id = data[i].id;
@@ -127,7 +127,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     var artist = data[i].artist;
                     var image = data[i].url_image;
                     var audio = data[i].url_audio;
-                    console.log("Item", i, title);
+                    //console.log("Item", i, title);
                     html += "<tr>";
                     html += "<td>";
                     html += "<img src=\"" + image + "\" class=\"item meta image\" data-songid=" + id + "></img>";
@@ -154,7 +154,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     // Eliminar item
     $(".audio.media.list").on("click", "#deleteItemButton", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-        console.log("Elimino la canción");
+        //console.log("Elimino la canción");
         var self = this;
         var id = $(self).data("songid");
 
@@ -171,7 +171,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     });
 
     $(".audio.media.list").on("click", "#editItemButton", function() { //elimino la canción mediante el botón delete, cuando exista un botón dentro de .audio.media.list
-        console.log("Traigo los campos de la canción y pinto formulario");
+        //console.log("Traigo los campos de la canción y pinto formulario");
         showForm();
         var self = this;
         var id = $(self).data("songid");
@@ -180,13 +180,13 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             method: "GET",
             url: "/api/playlist/" + id,
             success: function(data) {
-                console.log("Los datos son: ", data);
+                //console.log("Los datos son: ", data);
                 $("#artist").val(data.artist);
                 $("#song").val(data.title);
                 $("#audio").val(data.url_audio);
                 $("#image").val(data.url_image);
                 $("#idElem").val(id);
-                console.log("El id es", id);
+                //console.log("El id es", id);
             },
             error: function() {
                 alert("Se ha producido un error al editar");
@@ -203,10 +203,10 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             method: "GET",
             url: "/api/playlist/" + id,
             success: function(data) {
-                console.log("Los datos son: ", data);
+                //console.log("Los datos son: ", data);
                 $("audio").attr("src", data.url_audio);
                 $("audio").attr("id", data.id)
-                console.log("El titulo y autor es", data.title, data.artist);
+                //console.log("El titulo y autor es", data.title, data.artist);
                 $(".item.title.footer").html(data.title);
                 $(".item.author.footer").html(data.artist);
 
@@ -219,7 +219,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     }
 
     $("body").on("click", ".item.meta", function() { //añade al reproductor la canción seleccionada
-        console.log("Voy a añadir una canción al reproductor");
+        //console.log("Voy a añadir una canción al reproductor");
         var self = this;
         var id = $(self).data("songid");
         playItem(id);
@@ -227,7 +227,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     });
 
     $(".item.output.audio").on("ended", function() { //controlamos cuando acaba la canción
-        console.log("La canción ha terminado");
+        //console.log("La canción ha terminado");
         var idPlay = $(".item.meta.title").data("songid");
         nextItem(idPlay);
     });
@@ -237,25 +237,25 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     var arrayId = new Array();
 
     function nextItem(idPlay) {
-        console.log("Se va a reproducir la canción siguiente");
-        console.log("El id de la canción que ha terminado es ", idPlay);
+        //console.log("Se va a reproducir la canción siguiente");
+        //console.log("El id de la canción que ha terminado es ", idPlay);
         var z = 0;
         $.ajax({
             method: "GET",
             url: "/api/playlist/",
             success: function(data) {
-                console.log("Los datos son ", data);
+                //console.log("Los datos son ", data);
                 for (var i in data) {
                     arrayId[z] = data[i].id;
-                    console.log("Los datos actuales del arrayId son ", arrayId[z]);
+                    //console.log("Los datos actuales del arrayId son ", arrayId[z]);
                     z++;
                 }
                 for (var j = 0; j < arrayId.length; j++) {
                     idActual = arrayId[j];
                     idNext = arrayId[j + 1];
-                    console.log("El id actual y siguiente son ", idActual, idNext);
+                    //console.log("El id actual y siguiente son ", idActual, idNext);
                     if (idActual == idPlay) { //si el id actual es el que se acaba de reproducir cogemos el siguiente
-                        console.log("Vamos a pasar a la siguiente canción cuyo id es", idNext);
+                        //console.log("Vamos a pasar a la siguiente canción cuyo id es", idNext);
                         playItem(idNext);
                     }
                 }
