@@ -250,15 +250,17 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         if(idPlay > 1){
             indexArray++;
             nextItem(idPlay);
+            previousItem(idPlay);
         }
         else{
             nextItem(idPlay);
+            previousItem(idPlay);
         }
     });
 
 
     function nextItem(idPlay) {
-        $("body").on("click", ".forward.song.button", function() {
+      //  $("#forwardItemButton").on("click", function() {
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay); //sigue sin actualizarse
              $.ajax({
@@ -282,17 +284,22 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
             },
             error: function() {
-                alert("Se ha producido un error al editar");
+                alert("Se ha producido un error al forward");
             }
-        });
+      //  });
         });
     }
+
+    $("#forwardItemButton").click({idPlay}, nextItem);
+    $("#backwardItemButton").click({idPlay}, nextItem);
+
 
 
 
 
     function previousItem(idPlay) {
-        $("body").on("click", ".backward.song.button", function() {
+        $("#backwardItemButton").on("click", function() {
+
         console.log("El idPlay es", idPlay);
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay);
@@ -302,20 +309,23 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
             success: function(data) {
                 console.log("Los datos son ", data);
                 for (var i in data) {
-                    arrayId[z] = data[i].id;
-                    z++;
-                    if(arrayId[z] == idPlay){
-                    arrayId[indexArray] = arrayId[z+1];
+                    arrayId[i] = data[i].id;
+                    i--;
+                    if(arrayId[i] == idPlay){
+                    arrayId[indexArray] = arrayId[i];
                     }
                 }
 
                     console.log("El indexArray y el arrayId es", indexArray, arrayId);
-                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray++]);
-                    playItem(arrayId[indexArray++]);
+                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray-1]);
+                    if(!(arrayId[indexArray-1])){
+                        return false;
+                    }
+                    playItem(arrayId[indexArray-1]);
 
             },
             error: function() {
-                alert("Se ha producido un error al editar");
+                alert("Se ha producido un error al hacer backward");
             }
         });
     });
