@@ -1,0 +1,39 @@
+.clearfix() {
+	&:before,
+	&:after {
+	  content: " "; // 1
+	  display: table; // 2
+	}
+	&:after {
+	  clear: both;
+	}
+}		
+
+.hidden {
+	display: none;
+}
+
+.loading {
+	padding-top: 40px;
+}
+
+.horizontal-list() {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	li {
+		display: inline-block;
+	}
+}
+
+.img-responsive() {
+	position: relative;
+	width: 100%;
+	max-width: 100%;
+}
+
+.if-is-mobile(@rules) {
+	@media screen and (max-width: (@mobile-width - 1)) {
+		@rules();
+	}
+}

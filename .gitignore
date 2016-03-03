@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Archivos del SO
+.DS_Store
+
+#CSS
+style.css
+
+#Bower modules
+bower_components/
+
+#Series
+db/
+
+#Python
+*.py*

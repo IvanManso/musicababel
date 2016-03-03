@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>MúsicaBabel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="web header">
+		<div class="container">			
+			<table class="u-full-width">
+	    		<tbody>
+				    <tr>
+			        	<td>
+			      			<div class="brand">
+	                        	<h1>MúsicaBabel</h1>
+	                    	</div>
+				      	</td>
+			      		<td>
+				      		<div class="item add">
+		                        <button href="#" id="addItemButton" class="button-primary hidden">Añadir</button>
+		                        <button href="#" id="cancelItemButton" class="button-primary hidden">Cancelar</button>
+	                    	</div>
+				      	</td>			   
+				    </tr>
+				  </tbody>
+			</table>
+		</div>
+    </header>
+
+    <div class="loading">
+        <h2>LOADING...</h2>
+    </div>
+
+    <main class="web main hidden">
+        <div class="container">        	
+	        <table class="u-full-width">
+	            <tbody class="audio media list">
+	                <tr>
+	                    <td>
+	                        <img src="images/disk.png" alt="Carátula de canción" title="Carátula de canción" class="item image">
+	                    </td>
+	                    <td>
+	                        <div class="item meta">
+	                            <h3 class="item title">Empiece añadiendo canciones!</h3>
+	                            <h4 class="item author">Click en el botón AÑADIR</h4>
+	                        </div>
+	                    </td>
+	                    <td>
+	                        <div class="item buttons">
+	                            <button type="submit" class="item edit">Editar</button>
+	                            <button type="submit" class="item delete">Eliminar</button>
+	                        </div>
+	                    </td>                    
+	                </tr>
+	            </tbody>
+	        </table>
+        </div>
+    </main>
+
+    <form novalidate class="web form hidden">
+        <div class="container">
+            <div class="row">
+                <input id="idElem" hidden></input>
+                <div>
+                    <label>
+                        <h3>Título</h3>
+                        <input type="text" class="item input title" id="song" name="song" placeholder="Introduce el título de la canción" required></input>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>Artista</h3>
+                        <input type="text" class="item input artist" id="artist" name="artist" placeholder="Introduce el nombre del artista" required></input>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>URL Canción</h3>
+                        <input type="url" class="item input url song" id="audio" name="audio" placeholder="Introduce la url de la canción" required></input>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>URL Imagen</h3>
+                        <input type="url" class="item input url image" id="image" name="image" placeholder="Introduce la url de la imagen"></input>
+                    </label>
+                </div>
+                <div class="item save">
+                    <button type="submit" id="saveItemButton">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <footer class="web footer">
+        <div class="container">
+	        <h3 class="item title footer">Título de canción</h3>
+	        <h4 class="item author footer">Nombre del artista</h4>
+	        <audio class="item output audio" id="" controls autoplay>
+	            <source src="#" type="audio/mp3">
+	        </audio>
+        </div>
+    </footer>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="js/src/app.js"></script>
+</body>
+
+</html>
