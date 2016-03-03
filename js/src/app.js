@@ -290,7 +290,9 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         });
     }
 
-    $("#forwardItemButton").click({idPlay}, nextItem);
+    $("#forwardItemButton").on("click", function(){ //probando
+        $(".item.output.audio").trigger("ended", previousItem(idPlay)); //probando
+    }); //al hacer click que obligue a lanzar ended
     $("#backwardItemButton").click({idPlay}, nextItem);
 
 
@@ -298,7 +300,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
 
     function previousItem(idPlay) {
-        $("#backwardItemButton").on("click", function() {
+
 
         console.log("El idPlay es", idPlay);
         console.log("Se va a reproducir la canción siguiente");
@@ -328,7 +330,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 alert("Se ha producido un error al hacer backward");
             }
         });
-    });
+
     }
 
     showIndex();
