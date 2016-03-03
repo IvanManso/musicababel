@@ -135,7 +135,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     var title = data[i].title;
                     var artist = data[i].artist;
                     var image = data[i].url_image;
-                    var audio = data[i].url_audio;                    
+                    var audio = data[i].url_audio;
                     html += "<tr>";
                     html += "<div  class=\"item meta cont\" data-songid=" + id + ">";
                     html += "<td>";
@@ -257,9 +257,8 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     });
 
 
-
-
     function nextItem(idPlay) {
+        $("body").on("click", ".forward.song.button", function() {
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay); //sigue sin actualizarse
              $.ajax({
@@ -286,11 +285,14 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 alert("Se ha producido un error al editar");
             }
         });
+        });
     }
 
 
-//  Funciona como si fuera previous
+
+
     function previousItem(idPlay) {
+        $("body").on("click", ".backward.song.button", function() {
         console.log("El idPlay es", idPlay);
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay);
@@ -316,6 +318,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 alert("Se ha producido un error al editar");
             }
         });
+    });
     }
 
     showIndex();
