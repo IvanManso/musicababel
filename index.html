@@ -32,7 +32,7 @@
     </header>
 
     <div class="loading">
-        <h2>LOADING...</h2>
+        <img src="images/dots2.gif">
     </div>
 
     <main class="web main hidden">
@@ -100,9 +100,21 @@
         <div class="container">
 	        <h3 class="item title footer">Título de canción</h3>
 	        <h4 class="item author footer">Nombre del artista</h4>
-	        <audio class="item output audio" id="" controls autoplay>
-	            <source src="#" type="audio/mp3">
-	        </audio>
+			<table class="u-full-width">
+	            <tbody class="audio backfor buttons">
+	                <tr>
+	                    <td>
+	            			<button class=""><i class="fa fa-forware"></i></button>				
+							<button><i class="fa fa-backware"></i></button>	                        
+	                    </td>
+	                    <td>
+	        				<audio class="item output audio" id="" controls autoplay>
+					            <source src="#" type="audio/mp3">
+					        </audio>	                   
+	                    </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </footer>
 
