@@ -248,15 +248,15 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         console.log("La canción ha terminado");
         idPlay = $(".item.meta.image").data("songid");
         console.log("El idPlay después de la asignación es", idPlay);
-        indexArray = 1;
+        //indexArray = 1;
         nextItem(idPlay);
     });
 
 
     function nextItem(idPlay) {
         //  $("#forwardItemButton").on("click", function() {
-            var indexArray = 1;
-            var n = 1;
+        var indexArray = 1;
+        var n = 1;
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay); //sigue sin actualizarse
         $.ajax({
@@ -267,45 +267,43 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 for (var i in data) {
                     arrayId[i] = data[i].id;
                     i++;
-                   /* if (arrayId[i] == idPlay) {
-                        indexArray = i;
-                    } */
+                    /* if (arrayId[i] == idPlay) {
+                         indexArray = i;
+                     } */
                 }
                 console.log("El indexArray y el arrayId es", indexArray, arrayId); //al comenzar por 2, i o indexArray están mal
 
-                if(idPlay > n){
+                if (idPlay > n) {
                     n = idPlay;
                     indexArray += n;
-                     console.log("El indexArray y el arrayId tras la asignación a idPlay es", indexArray, arrayId);
+                    console.log("El indexArray y el arrayId tras la asignación a idPlay es", indexArray, arrayId);
                 }
-                if (!(arrayId[indexArray-1])) {
-                    console.log("El arrayId con indexArray es ", arrayId[indexArray+1]);
+                if (!(arrayId[indexArray - 1])) {
+                    console.log("El arrayId con indexArray es ", arrayId[indexArray + 1]);
                     return false;
                 }
                 if (idPlay > 1) {
-                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray-1]);
-                    playItem(arrayId[indexArray -1]);
-                }
-
-                else {
-                      console.log("La siguiente canción a reproducir es ", arrayId[indexArray]);
+                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray - 1]);
+                    playItem(arrayId[indexArray - 1]);
+                } else {
+                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray]);
                     playItem(arrayId[indexArray]);
                 }
 
             },
             error: function() {
-                    alert("Se ha producido un error al forward");
+                    alert("Se ha producido un error al hacer forward");
                 }
                 //  });
         });
     }
 
-    $("#forwardItemButton").on("click", function(){ //probando
+    $("#forwardItemButton").on("click", function() { //probando
         $(".item.output.audio").trigger("ended", nextItem(idPlay)); //probando
     }); //al hacer click que obligue a lanzar ended
 
-    $("#backwardItemButton").on("click", function(){
-     $(".item.output.audio").trigger("ended", previousItem(idPlay)); //probando
+    $("#backwardItemButton").on("click", function() {
+        $(".item.output.audio").trigger("ended", previousItem(idPlay)); //probando
     });
 
 
@@ -315,9 +313,10 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     function previousItem(idPlay) {
 
 
-        console.log("El idPlay es", idPlay);
-        console.log("Se va a reproducir la canción siguiente");
-        console.log("El id de la canción que ha terminado es ", idPlay);
+        var indexArray = 0;
+        var n = 0;
+        console.log("Se va a reproducir la canción anterior");
+        console.log("El id de la canción que ha terminado es ", idPlay); //sigue sin actualizarse
         $.ajax({
             method: "GET",
             url: "/api/playlist/",
@@ -325,25 +324,43 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 console.log("Los datos son ", data);
                 for (var i in data) {
                     arrayId[i] = data[i].id;
-                    i--;
                     if (arrayId[i] == idPlay) {
-                        arrayId[indexArray] = arrayId[i];
+                        indexArray = i;
+                        console.log("El nuevo indexArray es", indexArray);
+                        break;
                     }
+                    i++;
                 }
-
                 console.log("El indexArray y el arrayId es", indexArray, arrayId);
-                console.log("La siguiente canción a reproducir es ", arrayId[indexArray - 1]);
-                if (!(arrayId[indexArray - 1])) {
+
+                //if(idPlay > n){
+                //  console.log("El indexArray y el arrayId tras la asignación a idPlay es", indexArray, arrayId);
+                //}
+                /*if (!(arrayId[indexArray])) {
+                    console.log("El arrayId con indexArray es ", arrayId[indexArray]);
                     return false;
+                } */
+                /*if (indexArray > n) {
+                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray - 2]);
+                    playItem(arrayId[indexArray - 2]);
+                } else {
+                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray]);
+                    playItem(arrayId[indexArray]);
+                }*/
+                if (indexArray < 2) {
+                    //indexArray = 0;
+                    playItem(arrayId[indexArray - 2]);
+
+                } else {
+                    playItem(arrayId[indexArray - 1]);
                 }
-                playItem(arrayId[indexArray - 1]);
 
             },
             error: function() {
-                alert("Se ha producido un error al hacer backward");
-            }
+                    alert("Se ha producido un error al hace backward");
+                }
+                //  });
         });
-
     }
 
     showIndex();
