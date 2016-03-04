@@ -4,13 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="images/favicon.png">
     <title>MúsicaBabel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header class="web header">
-		<div class="container">			
+		<div class="container">
 			<table class="u-full-width">
 	    		<tbody>
 				    <tr>
@@ -24,7 +25,7 @@
 		                        <button href="#" id="addItemButton" class="button-primary hidden">Añadir</button>
 		                        <button href="#" id="cancelItemButton" class="button-primary hidden">Cancelar</button>
 	                    	</div>
-				      	</td>			   
+				      	</td>
 				    </tr>
 				  </tbody>
 			</table>
@@ -32,13 +33,13 @@
     </header>
 
     <div class="loading">
-        <h2>LOADING...</h2>
+        <img src="images/dots2.gif">
     </div>
 
     <main class="web main hidden">
-        <div class="container">        	
+        <div class="container">
 	        <table class="u-full-width">
-	            <tbody class="audio media list">
+	            <tbody class="audio media list animated bounceInDown">
 	                <tr>
 	                    <td>
 	                        <img src="images/disk.png" alt="Carátula de canción" title="Carátula de canción" class="item image">
@@ -54,7 +55,7 @@
 	                            <button type="submit" class="item edit">Editar</button>
 	                            <button type="submit" class="item delete">Eliminar</button>
 	                        </div>
-	                    </td>                    
+	                    </td>
 	                </tr>
 	            </tbody>
 	        </table>
@@ -100,12 +101,25 @@
         <div class="container">
 	        <h3 class="item title footer">Título de canción</h3>
 	        <h4 class="item author footer">Nombre del artista</h4>
-	        <audio class="item output audio" id="" controls autoplay>
-	            <source src="#" type="audio/mp3">
-	        </audio>
+			<table class="u-full-width">
+	            <tbody class="audio backfor buttons">
+	                <tr>
+	                    <td>	            							
+							<button class="backward song button" id="backwardItemButton"><i class="fa fa-backward fa-2x fa-left"></i></button>	                        
+	                    </td>
+	                    <td>
+	            			<button class="forward song button" id="forwardItemButton"><i class="fa fa-forward fa-2x fa-right"></i></button>												                        
+	                    </td>
+	                    <td>
+	        				<audio class="item output audio" id="" controls autoplay>
+					            <source src="#" type="audio/mp3">
+					        </audio>	                   
+	                    </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </footer>
-
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="js/src/app.js"></script>
 </body>
