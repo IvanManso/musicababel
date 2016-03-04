@@ -1,6 +1,6 @@
 {
   "name": "musicababel",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "An awesome clone of Grooveshark and SoundCloud",
   "main": "index.js",
   "scripts": {
