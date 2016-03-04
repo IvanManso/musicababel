@@ -1,14 +1,15 @@
 var idPlay = $(".item.meta.image").data("songid");
 var arrayId = new Array();
-var indexArray = 0;
+
+
 $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     console.log("Document ready");
 
     // Funcionalidad tipo SPA
     function showLoading() {
-    	console.log("Lanzamos capa loading para evitar problemas con el servidor");
-    	$(".loading").removeClass("hidden");
+        console.log("Lanzamos capa loading para evitar problemas con el servidor");
+        $(".loading").removeClass("hidden");
     }
 
     function showIndex() {
@@ -44,7 +45,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
     // Funcionalidad del formulario
     $("form").on("submit", function() { //cuando se intente enviar
-    	showLoading();
+        showLoading();
         var artist = $.trim($("#artist").val());
         var title = $.trim($("#song").val());
 
@@ -114,7 +115,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                     alert("Guardado con éxito");
                 },
                 error: function() {
-                	showIndex();
+                    showIndex();
                     alert("Se ha producido un error");
                 }
             });
@@ -126,7 +127,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     // Pintar lista de items guardados en la db
     function reloadItems() {
         $.ajax({ //realizo una peticón ajax para mostrar en .audio.media.list los datos almacenados
-           url: "/api/playlist/",
+            url: "/api/playlist/",
             success: function(data) {
                 console.log("Cargando lista de items", data);
                 var html = "";
@@ -243,27 +244,22 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
 
 
     $(".item.output.audio").on("ended", function() { //controlamos cuando acaba la canción
-         console.log("El idPlay antes de la asignación es", idPlay);
+        console.log("El idPlay antes de la asignación es", idPlay);
         console.log("La canción ha terminado");
         idPlay = $(".item.meta.image").data("songid");
         console.log("El idPlay después de la asignación es", idPlay);
-        if(idPlay > 1){
-            indexArray++;
-            nextItem(idPlay);
-            previousItem(idPlay);
-        }
-        else{
-            nextItem(idPlay);
-            previousItem(idPlay);
-        }
+        indexArray = 1;
+        nextItem(idPlay);
     });
 
 
     function nextItem(idPlay) {
-      //  $("#forwardItemButton").on("click", function() {
+        //  $("#forwardItemButton").on("click", function() {
+            var indexArray = 1;
+            var n = 1;
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay); //sigue sin actualizarse
-             $.ajax({
+        $.ajax({
             method: "GET",
             url: "/api/playlist/",
             success: function(data) {
@@ -271,29 +267,43 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 for (var i in data) {
                     arrayId[i] = data[i].id;
                     i++;
-                    if(arrayId[i] == idPlay){
-                    indexArray = i;
-                    }
+                   /* if (arrayId[i] == idPlay) {
+                        indexArray = i;
+                    } */
                 }
-                    console.log("El indexArray y el arrayId es", indexArray, arrayId); //al comenzar por 2, i o indexArray están mal
-                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray+1]);
-                    if(!(arrayId[indexArray+1])){
-                        return false;
-                    }
-                    playItem(arrayId[indexArray+1]);
+                console.log("El indexArray y el arrayId es", indexArray, arrayId); //al comenzar por 2, i o indexArray están mal
+
+                if(idPlay > n){
+                    n = idPlay;
+                    indexArray += n;
+                     console.log("El indexArray y el arrayId tras la asignación a idPlay es", indexArray, arrayId);
+                }
+                if (!(arrayId[indexArray-1])) {
+                    console.log("El arrayId con indexArray es ", arrayId[indexArray+1]);
+                    return false;
+                }
+                if (idPlay > 1) {
+                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray-1]);
+                    playItem(arrayId[indexArray -1]);
+                }
+
+                else {
+                      console.log("La siguiente canción a reproducir es ", arrayId[indexArray]);
+                    playItem(arrayId[indexArray]);
+                }
 
             },
             error: function() {
-                alert("Se ha producido un error al forward");
-            }
-      //  });
+                    alert("Se ha producido un error al forward");
+                }
+                //  });
         });
     }
 
     $("#forwardItemButton").on("click", function(){ //probando
         $(".item.output.audio").trigger("ended", previousItem(idPlay)); //probando
     }); //al hacer click que obligue a lanzar ended
-    $("#backwardItemButton").click({idPlay}, nextItem);
+    //$("#backwardItemButton").click({idPlay}, nextItem); */
 
 
 
@@ -305,7 +315,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
         console.log("El idPlay es", idPlay);
         console.log("Se va a reproducir la canción siguiente");
         console.log("El id de la canción que ha terminado es ", idPlay);
-             $.ajax({
+        $.ajax({
             method: "GET",
             url: "/api/playlist/",
             success: function(data) {
@@ -313,17 +323,17 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 for (var i in data) {
                     arrayId[i] = data[i].id;
                     i--;
-                    if(arrayId[i] == idPlay){
-                    arrayId[indexArray] = arrayId[i];
+                    if (arrayId[i] == idPlay) {
+                        arrayId[indexArray] = arrayId[i];
                     }
                 }
 
-                    console.log("El indexArray y el arrayId es", indexArray, arrayId);
-                    console.log("La siguiente canción a reproducir es ", arrayId[indexArray-1]);
-                    if(!(arrayId[indexArray-1])){
-                        return false;
-                    }
-                    playItem(arrayId[indexArray-1]);
+                console.log("El indexArray y el arrayId es", indexArray, arrayId);
+                console.log("La siguiente canción a reproducir es ", arrayId[indexArray - 1]);
+                if (!(arrayId[indexArray - 1])) {
+                    return false;
+                }
+                playItem(arrayId[indexArray - 1]);
 
             },
             error: function() {
