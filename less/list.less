@@ -1,7 +1,7 @@
 .main.web {
 	padding: 40px 0 20px 0;
 	@media (min-width: @bp-larger-than-mobile) {
-		padding: 40px 0 70px 0;	
+		padding: 40px 0 70px 0;
 	}
 	img {
 		width: 7rem;
@@ -19,6 +19,13 @@
 	.item.buttons {
 		text-align: center;
 	}
+	td{
+		.item.meta{
+		&:hover {
+			background-color: grey;
+    	}
+    	}
+	}
 	button {
 		width: 9rem;
 		padding: 0 6px;
@@ -32,7 +39,7 @@
 			margin: 0;
 		}
 		h4 {
-			margin: 0; 
+			margin: 0;
 		}
 	}
 }
