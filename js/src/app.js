@@ -301,9 +301,12 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
     }
 
     $("#forwardItemButton").on("click", function(){ //probando
-        $(".item.output.audio").trigger("ended", previousItem(idPlay)); //probando
+        $(".item.output.audio").trigger("ended", nextItem(idPlay)); //probando
     }); //al hacer click que obligue a lanzar ended
-    //$("#backwardItemButton").click({idPlay}, nextItem); */
+
+    $("#backwardItemButton").on("click", function(){
+     $(".item.output.audio").trigger("ended", previousItem(idPlay)); //probando
+    });
 
 
 
