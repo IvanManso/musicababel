@@ -21,7 +21,7 @@ Después arranca *grunt*, utlizando el comando `grunt`
 * MVP: Layout responsive en móviles, tablets y pantallas de escritorio.
 * MVP: Funcionalidad básica, reproducir canción, añadir, editar y eliminar.
 
-### v.0.2.0 - 2016-03-04
+### v.0.2.1 - 2016-03-04
 
 * Lista de reproducción.
 * Botón de siguiente canción.
