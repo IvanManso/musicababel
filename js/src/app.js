@@ -112,7 +112,7 @@ $(document).ready(function() { //Cuando la página se ha cargado por completo
                 contentType: 'application/json',
                 success: function() {
                     showIndex();
-                    //alert("Guardado con éxito");
+                    alert("Guardado con éxito");
                 },
                 error: function() {
                     showIndex();
